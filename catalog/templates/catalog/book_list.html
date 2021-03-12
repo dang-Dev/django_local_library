@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+{% load bootstrap %}
+{% load static %}
+{% block content %}
+  <h1>Book List</h1>
+  <div class="container">
+    <form method="GET">
+      {{filter.form|bootstrap}}
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+{% if book_list %}
+  <ul>
+    {% for book in filter.qs %}
+      <li>
+        <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no books in the library.</p>
+  {% endif %} 
+{% endblock %}
+</div>
