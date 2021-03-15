@@ -5,9 +5,17 @@
 {% block content %}
 <div>
     <h1>Search books</h1>
-    <form action="" method="post">
+    <form action="{% url 'search_book' %}" name="form1" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form1.as_p }}
+        <button type="submit">Seach</button>
+    </form>
+</div>
+<div>
+    <h1>Search Author</h1>
+    <form action="{% url 'search_author' %}" name="form2" method="post">
+        {% csrf_token %}
+        {{  form2.as_p }}
         <button type="submit">Seach</button>
     </form>
 </div>

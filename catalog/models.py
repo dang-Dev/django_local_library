@@ -104,7 +104,7 @@ class Author(models.Model):
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_death = models.DateField('died', null=True, blank=True)
-
+  
     class Meta:
         ordering = ['last_name', 'first_name']
 
@@ -120,7 +120,7 @@ class Author(models.Model):
 from six import python_2_unicode_compatible
 @python_2_unicode_compatible
 class TModel(models.Model):
-    search = models.ForeignKey(
+    search_book = models.ForeignKey(
         'self',
         models.CASCADE,
         null=True,
@@ -128,4 +128,16 @@ class TModel(models.Model):
     )
 
     def __str__(self):
-        return self.search
+        return self.search_book
+    
+@python_2_unicode_compatible
+class TModelAuthor(models.Model):
+    search_author = models.ForeignKey(
+        'self',
+        models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return self.search_author
