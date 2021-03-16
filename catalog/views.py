@@ -79,7 +79,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from .forms import RenewBookForm, TForm
+from .forms import RenewBookForm
 
 @login_required
 @permission_required('catalog.can_mark_returned', raise_exception=True)
@@ -165,46 +165,24 @@ except ImportError:
     from django.core.urlresolvers import reverse_lazy
 from django.forms import inlineformset_factory
 from django.views import generic   
-from .models import TModel, TModelAuthor
-from .forms import TForm, TFormAuthor
+from .models import TModel
+from .forms import  TForm
 from django.http import HttpResponse
 
 class UpdateView(generic.UpdateView):
     model = TModel
     form_class = TForm
-    second_form_class = TFormAuthor
     template_name = 'catalog/select2_outside_admin.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super(UpdateView, self).get_context_data(**kwargs)
-        if 'form1' not in context:
-            context['form1'] = self.form_class()
-        if 'form2' not in context:
-            context['form2'] = self.second_form_class()
-        return context
-    
-    def get_object(self):
-        return TModel.objects.first()
-    
-class UpdateViewAuthor(generic.TemplateView):
-    model = TModelAuthor
-    form_class = TFormAuthor
-    template_name = 'catalog/select2_outside_admin.html'
-    
-    def post(self, request):
-        q = request.POST['search_author']
-        return redirect(reverse('author-detail', args=(q)))
-        
-class UpdateViewBook(generic.TemplateView):
-    model = TModel
-    form_class = TForm
-    template_name = 'catalog/select2_outside_admin.html'
+    success_url = reverse_lazy('search')
+    formset_class = inlineformset_factory(
+        TModel,
+        TModel,
+        form=TForm,
+        fk_name='author_field',
+        fields=('book_field','author_field')
+    )
 
     def get_object(self):
-        return TModel.objects.first()
+        return TModel.objects.first()    
     
-    def post(self, request):
-        pass
-        q = request.POST['search_book']
-        return redirect(reverse('book-detail', args=(q)))
         

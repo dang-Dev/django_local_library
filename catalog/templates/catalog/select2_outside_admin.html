@@ -4,19 +4,10 @@
 
 {% block content %}
 <div>
-    <h1>Search books</h1>
-    <form action="{% url 'search_book' %}" name="form1" method="post">
+    <h1>Search GIN</h1>
+    <form action="" name="form1" method="post">
         {% csrf_token %}
-        {{ form1.as_p }}
-        <button type="submit">Seach</button>
-    </form>
-</div>
-<div>
-    <h1>Search Author</h1>
-    <form action="{% url 'search_author' %}" name="form2" method="post">
-        {% csrf_token %}
-        {{  form2.as_p }}
-        <button type="submit">Seach</button>
+        {{ form.as_p }}
     </form>
 </div>
 {% endblock %}
@@ -25,5 +16,17 @@
 <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
 
 {{ form.media }}
+<script>
+    $(document).ready(function() {
+    // Bind on continent field change
+    $(':input[name$=author_field]').on('change', function() {
+        // Get the field prefix, ie. if this comes from a formset form
+        var prefix = $(this).getFormPrefix();
 
+        // Clear the autocomplete with the same prefix
+        $(':input[name=' + prefix + 'book_field]').val(null).trigger('change');
+    });
+   
+});
+</script>
 {% endblock %}

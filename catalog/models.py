@@ -118,26 +118,22 @@ class Author(models.Model):
 
 
 from six import python_2_unicode_compatible
+
 @python_2_unicode_compatible
 class TModel(models.Model):
-    search_book = models.ForeignKey(
+    book_field = models.ForeignKey(
         'self',
         models.CASCADE,
         null=True,
         blank=True,
+        related_name='related_book_models'
     )
-
-    def __str__(self):
-        return self.search_book
-    
-@python_2_unicode_compatible
-class TModelAuthor(models.Model):
-    search_author = models.ForeignKey(
+    author_field = models.ForeignKey(
         'self',
         models.CASCADE,
         null=True,
         blank=True,
+        related_name='related_author_models'
     )
-
     def __str__(self):
-        return self.search_author
+        return self.book_field

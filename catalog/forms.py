@@ -21,27 +21,15 @@ class RenewBookForm(forms.Form):
         return data
 
 from dal import autocomplete
-from .models import TModel, TModelAuthor
+from .models import TModel
 
 class TForm(forms.ModelForm):
     class Meta:
         model = TModel
-        fields = ('search_book',)
+        fields = ('author_field', 'book_field',)
         widgets = {
-            'search_book': autocomplete.ModelSelect2(url='linked_data',)
-        }
-
-    class Media:
-        js = (
-            'linked_data.js',
-        )
-
-class TFormAuthor(forms.ModelForm):
-    class Meta:
-        model = TModelAuthor
-        fields = ('search_author',)
-        widgets = {
-            'search_author': autocomplete.ModelSelect2(url='linked_data_author',)
+            'book_field': autocomplete.ModelSelect2(url='linked_data',forward=['author_field']),
+            'author_field': autocomplete.ModelSelect2(url='linked_data', ),
         }
 
     class Media:
