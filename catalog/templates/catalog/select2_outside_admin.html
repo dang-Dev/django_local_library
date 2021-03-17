@@ -8,7 +8,9 @@
     <form action="" name="form1" method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        <button type="submit">Search</button>
     </form>
+    
 </div>
 {% endblock %}
 

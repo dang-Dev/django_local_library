@@ -183,7 +183,11 @@ class UpdateView(generic.UpdateView):
     )
 
     def get_object(self):
-        return TModel.objects.first()   
+        return TModel.objects.first()
+    
+    def post(self, request):
+        q = request.POST['book_field']
+        return redirect(reverse('book-detail', args=(q)))
     
      
     
