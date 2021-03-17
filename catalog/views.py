@@ -183,6 +183,8 @@ class UpdateView(generic.UpdateView):
     )
 
     def get_object(self):
-        return TModel.objects.first()    
+        return TModel.objects.first()   
+    
+     
     
         

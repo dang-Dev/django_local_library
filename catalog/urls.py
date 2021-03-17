@@ -7,16 +7,30 @@ from dal import autocomplete
 class LinkedDataView(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         qs = Author.objects.all()
-        book_field = self.forwarded.get('book_field',)
+        author_field = self.forwarded.get('author_field',)
+        
+        if author_field:
+            qs = Book.objects.all()
+            qs = qs.filter(author=author_field)
+            if self.q:
+                qs = qs.filter(title__istartswith=self.q)
+        
+        return qs
+    
+class LinkedData(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Book.objects.all()
         author_field = self.forwarded.get('author_field',)
         if author_field:
             qs = Book.objects.all()
             qs = qs.filter(author=author_field)
             if self.q:
                 qs = qs.filter(title__istartswith=self.q)
-       
+        if self.q:
+            qs = qs.filter(title__istartswith=self.q)
+        
         return qs
-       
+           
 
     
 urlpatterns = [
@@ -35,5 +49,6 @@ urlpatterns = [
     path('book/<int:pk>/update/', views.BookUpdate.as_view(), name='book-update'),
     path('book/<int:pk>/delete/', views.BookDelete.as_view(), name='book-delete'),
     path(r'linked_data/',LinkedDataView.as_view(model=TModel),name='linked_data'),
+    path(r'linked_data_book/',LinkedData.as_view(model=TModel),name='linked_data_book'),
     path('search/',views.UpdateView.as_view(),name='search'),
 ]

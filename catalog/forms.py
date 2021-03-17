@@ -28,8 +28,8 @@ class TForm(forms.ModelForm):
         model = TModel
         fields = ('author_field', 'book_field',)
         widgets = {
-            'book_field': autocomplete.ModelSelect2(url='linked_data',forward=['author_field']),
-            'author_field': autocomplete.ModelSelect2(url='linked_data', ),
+            'book_field': autocomplete.ModelSelect2(url='linked_data_book',forward=['author_field']),
+            'author_field': autocomplete.ModelSelect2(url='linked_data',),
         }
 
     class Media:
