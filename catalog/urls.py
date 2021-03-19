@@ -11,7 +11,7 @@ class LinkedDataView(autocomplete.Select2QuerySetView):
         
         if author_field:
             qs = Book.objects.all()
-            qs = qs.filter(author=author_field)
+            qs = qs.filter(name=author_field)
             if self.q:
                 qs = qs.filter(title__istartswith=self.q)
         

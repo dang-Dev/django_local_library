@@ -187,6 +187,9 @@ class UpdateView(generic.UpdateView):
     
     def post(self, request):
         q = request.POST['book_field']
+        if q == "":
+            q = request.POST['author_field']
+            return redirect(reverse('author-detail', args=(q)))    
         return redirect(reverse('book-detail', args=(q)))
     
      
